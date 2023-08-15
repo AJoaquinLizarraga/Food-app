@@ -1,0 +1,129 @@
+.bkg {
+  background-color: #000000;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh; 
+}
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  margin-top: 85px;
+  align-items: center; 
+  width: 400px; 
+}
+
+.error {
+  color: rgb(61, 49, 49);
+  background-color: rgb(236, 221, 221);
+  display: flex;
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-top: 10px; 
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(208, 194, 181);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.55);
+  width: 100%;
+  max-width: 400px;
+   overflow-x: auto; 
+}
+
+.correct,
+.btn {
+  border-radius: 10px;
+  font-family: italic;
+  color: #000000;
+  font-size: 17px;
+  padding: 10px 30px;
+  text-decoration: none;
+  margin-top: 10px;
+  width: 100%; 
+}
+
+.correct {
+  background: #e7f7c3;
+}
+
+.btn {
+  background: rgb(166, 96, 16);
+}
+
+/* Estilos para los botones en hover */
+.correct:hover,
+.btn:hover {
+  background: #f2d7b1;
+  background-image: linear-gradient(to bottom, #f2f2b1, #f3ff99);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+.h1 {
+  background-color: rgb(166, 96, 16);
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.55);
+  font-family: italic;
+  margin-bottom: 20px; 
+
+}
+
+.types {
+  background-color: rgb(225, 199, 199);
+  border-radius: 5px;
+  padding: 0.8px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.55);
+  font-family: italic;
+  display: inline-block;
+  margin-top: 10px; 
+}
+
+.btnx {
+  background-color: rgb(10, 8, 8);
+  color: rgb(235, 221, 221);
+  height: 20px;
+  border-radius: 10px;
+  width: 100px;
+  flex-wrap: nowrap;
+  
+}
+button{
+  cursor: pointer;
+}
+.adv {
+  background-color: rgb(166, 96, 16);
+  color: rgb(239, 230, 230);
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px; 
+}
+
+.select {
+  background: rgb(234, 238, 234);
+  cursor: pointer;
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  border-radius: 10px;
+  border-style: groove;
+  border-color: rgb(10, 11, 11);
+  margin-top: 10px; 
+}

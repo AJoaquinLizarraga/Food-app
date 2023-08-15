@@ -1,0 +1,35 @@
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px; 
+    padding: 10px;    
+  }
+  
+  .pageButton {
+    background-color: #b11824;
+    color: #e5cfcf;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .pageNumber {
+    background-color: #0d0d0c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+  }
+  
+  .currentPageNumber {
+    background-color: #b11824;
+    color: #e6c8c8;
+  }

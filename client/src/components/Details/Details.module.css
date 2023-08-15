@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  padding: 0;
+  
+}
+
+.container {
+  background-image: url(../../../public/mesarestaurante.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* background-color: black; */
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.titleContainer {
+  text-align: left;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.imageContainer img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.stepsContainer {
+  text-align: left;
+}
+
+ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: rgb(99, 28, 28);
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+
+/* Estilos responsive */
+@media (min-width: 768px) {
+  .detailsContainer {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .titleContainer {
+    flex-basis: 40%;
+    text-align: left;
+  }
+
+  .contentContainer {
+    flex-basis: 60%;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .imageContainer img {
+    max-height: 300px;
+  }
+}

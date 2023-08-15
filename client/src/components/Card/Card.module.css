@@ -1,0 +1,69 @@
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  }
+  
+  .card {
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 0.5%;
+    margin-left: 0.3%;
+    margin-right: 0.3%;
+    margin-top: 1.7%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    background-color: rgba(196, 41, 30, 0.566);
+    border: 3px solid rgba(59, 55, 55, 0.186);
+  }
+  
+  .card:hover {
+    cursor: pointer;
+    transform: scale(1.08);
+    transition: transform 0.2s ease-in-out;
+    box-shadow: 0px 0px 30px 2px #f0eeee;
+  }
+  
+  .cd {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: 8cm;
+    height: 11cm;
+  }
+  
+  .cardImg {
+    max-width: 100%;
+    max-height: 50%;
+    object-fit: cover;
+    border-radius: 11px;
+  }
+  
+  .tipes {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    margin: 0.25cm;
+    padding: 1px;
+    max-height: 50%;
+    overflow: hidden;
+    
+  }
+
+.showMore{
+    color: rgb(180, 19, 19);
+}
