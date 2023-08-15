@@ -8,14 +8,14 @@ function controlForm(input) {
   let errors = {};
   const regexHealthScore = /^(100|[1-9]\d|\d)$/;
 
-  if (!input.title) errors.title = "please put the title of the recipe";
-  if (!input.summary) errors.summary = "please put the summary of the recipe";
+  if (!input.title) errors.title = "Por favor, coloque un título a su receta";
+  if (!input.summary) errors.summary = "Detalle un resumen";
   if (!regexHealthScore.test(input.healthScore))
-    errors.healthScore = "put a healthScore between 0-100";
-  if (!input.image) errors.image = "please add an image to your recipe"; //modificar
-  if (!input.typeDiets || input.typeDiets.length === 0)
-    errors.typeDiets =
-      "please select at least one type of diet for your recipe";
+    errors.healthScore = "Puntúe su healthScore";
+  if (!input.image) errors.image = "De preferencia, coloque una foto de su receta"; //modificar
+  if (!input.typeDiet || input.typeDiet.length === 0)
+    errors.typeDiet =
+      "Seleccione al menos 3 tipos de dieta que correspondan";
 
   return errors;
 }
@@ -23,14 +23,14 @@ function controlForm(input) {
 export default function CreateRecipe() {
   const dispatch = useDispatch();
 
-  let listDiets = useSelector((state) => state.typeDiets);
+  let listDiets = useSelector((state) => state.typeDiet);
   const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
     title: "",
     summary: "",
     healthScore: "",
-    analyzedInstructions: "",
-    typeDiets: [],
+    stepbystep: "",
+    typeDiet: [],
     image: "",
   });
 
@@ -52,41 +52,34 @@ export default function CreateRecipe() {
   function handleSelect(event) {
     setInput({
       ...input,
-      typeDiets: [...input.typeDiets, event.target.value],
+      typeDiet: [...input.typeDiet, event.target.value],
     });
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const {
-      title,
-      summary,
-      healthScore,
-      analyzedInstructions,
-      typeDiets,
-      image,
-    } = input;
+    // const {
+    //   title,
+    //   summary,
+    //   healthScore,
+    //   stepbystep,
+    //   typeDiet,
+    //   image,
+    // } = input;
 
-    const typeDietsAsString = typeDiets.join(",");
+    const typeDietsAsString = input.typeDiet.join(",");
 
     try {
        dispatch(
-        postRecipe({
-          title,
-          summary,
-          healthScore,
-          analyzedInstructions,
-          typeDiets: typeDietsAsString,
-          image,
-        })
+        postRecipe(input)
       );
-      alert("Congratulations! You have created a new recipe!");
+      alert("Felicitaciones, ha creado su nueva receta");
       setInput({
         title: "",
         summary: "",
         healthScore: "",
-        analyzedInstructions: "",
-        typeDiets: [],
+        stepbystep: "",
+        typeDiet: [],
         image: "",
       });
     } catch (error) {
@@ -96,7 +89,7 @@ export default function CreateRecipe() {
   function handleDelete(event) {
     setInput({
       ...input,
-      typeDiets: input.typeDiets.filter((diet) => diet !== event),
+      typeDiet: input.typeDiet.filter((diet) => diet !== event),
     });
   }
 
@@ -158,8 +151,8 @@ export default function CreateRecipe() {
             <label>Paso a paso:</label>
             <input
               type="text"
-              name="analyzedInstructions"
-              value={input.analyzedInstructions}
+              name="stepbystep"
+              value={input.stepbystep}
               onChange={handleChange}
             />
           </div>
@@ -172,7 +165,7 @@ export default function CreateRecipe() {
             ))}
           </select>
           <br />
-          {input.typeDiets.map((event) => {
+          {input.typeDiet.map((event) => {
             return (
               <div key={event}>
                 <h5 className={styles.types}>{event}</h5>
@@ -186,9 +179,9 @@ export default function CreateRecipe() {
           errors.summary ||
           errors.healthScore ||
           errors.image ||
-          errors.typeDiets ? (
+          errors.typeDiet ? (
             <p className={styles.adv}>
-              Por favor,Complete todas las entradas para crear su receta.
+              Por favor, complete todas las entradas requeridas para crear su receta.
             </p>
           ) : (
             <button type="submit" className={styles.correct}>

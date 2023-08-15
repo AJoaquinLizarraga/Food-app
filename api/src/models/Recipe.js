@@ -32,7 +32,8 @@ module.exports = (database) => {
     },
     /**paso a paso de la comida */
     stepbystep: {
-      type: DataTypes.JSON
+      type: DataTypes.JSON,
+      allowNull: true,
     },
     image: {
       type: DataTypes.TEXT,
@@ -42,7 +43,7 @@ module.exports = (database) => {
     createIndb: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: true,
     },
   });
 };

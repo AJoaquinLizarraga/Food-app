@@ -1,9 +1,9 @@
 const axios = require("axios");
 const { Recipe, Diet } = require("../db");
-const { API_KEY } = process.env;
+const { API_KEY2 } = process.env;
 const { Op, URL_CS } = require("sequelize");
 
-const URL = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=100&addRecipeInformation=true`;
+const URL = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`;
 
 const cleanArray = (arr) => {
   return arr.map((elemento) => {
@@ -41,12 +41,9 @@ const getRecipesById = async (id) => {
   if (recetaId) return recetaId;
 
   try {
-    // console.log("esta entrando en el primer axios" + id);
-
     const response = await axios.get(
-      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
+      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY2}`
     );
-    console.log("este es el primer response" + response.data.title);
     const recetaId = {
       id: response.data.id,
       title: response.data.title,
@@ -57,22 +54,15 @@ const getRecipesById = async (id) => {
       Diet: response.data.diets,
       created: false,
     };
-    // createInDB(recetaId)
-    // console.log(recetaId);
     return recetaId;
   } catch (error) {
     try {
-      console.log("esta entrando en el segundo axios" + error);
       const response = await axios.get(
         "https://ajoaquinlizarraga.github.io/Food-API-mine/myApi/data/foodComplexSearch.json"
-      );
-      console.log(
-        response.data.results.find((elemento) => elemento.id === +id)
       );
       const elementoEncontrado = await response.data.results.find(
         (elemento) => elemento.id === +id
       );
-      console.log(elementoEncontrado);
       const recetaId = {
         id: elementoEncontrado.id,
         title: elementoEncontrado.title,
@@ -83,8 +73,6 @@ const getRecipesById = async (id) => {
         Diet: elementoEncontrado.diets,
         created: false,
       };
-      // createInDB(recetaId)
-      console.log(recetaId);
       return recetaId;
     } catch (error) {
       return { error: `No existe la receta con ID: ${id}` };
@@ -103,23 +91,40 @@ const getRecipesByName = async (name) => {
       },
     },
   });
-  // console.log("esto es es log de DBRecipes" + DBRecipes);
-
-  const apiRecipe = (
-    await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&titleMatch=${name}&number=100&addRecipeInformation=true`
-    )
-  );
-      // console.log(apiRecipe.data.results);
-  const newApi = cleanArray(apiRecipe.data.results);
-  // console.log(newApi);
-  const filteredApi = newApi.filter(
-    (recipe) =>
-    recipe.title && recipe.title.toLowerCase().includes(name.toLowerCase())
+  try {
+    const apiRecipes = (
+      await axios.get(
+        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&titleMatch=${name}&number=100&addRecipeInformation=true`
+      )
     );
-    console.log(filteredApi);
-
-  return [...DBRecipes, ...filteredApi];
+  
+    const newApi = cleanArray(apiRecipes.data.results);
+  
+    const filteredApi = newApi.filter(
+      (recipe) =>
+      recipe.title && recipe.title.toLowerCase().includes(name.toLowerCase())
+      );
+    return [...DBRecipes, ...filteredApi];
+    
+  } catch (error) {
+    try {
+      const apiRecipes = (
+        await axios.get(
+          "https://ajoaquinlizarraga.github.io/Food-API-mine/myApi/data/foodComplexSearch.json"
+        )
+      );
+    
+      const newApi = cleanArray(apiRecipes.data.results);
+    
+      const filteredApi = newApi.filter(
+        (recipe) =>
+        recipe.title && recipe.title.toLowerCase().includes(name.toLowerCase())
+        );
+      return [...DBRecipes, ...filteredApi];
+    } catch (error) {
+      throw error('No APIs found')
+    }
+  }
 };
 
 const getAllRecipes = async () => {
@@ -130,7 +135,6 @@ const getAllRecipes = async () => {
         through: "diet_type",
       },
     });
-    console.log(DBRecipes);
     const DBRecipesWDiets = DBRecipes.map((recipe) => {
       const { Diet, ...rest } = recipe.toJSON();
       return {
@@ -140,14 +144,37 @@ const getAllRecipes = async () => {
         }),
       };
     });
-    console.log(DBRecipesWDiets);
-    const APIRecipes = await axios.get(URL);
+  
+    const APIRecipes = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`);
     const cleanedAPIRecipes = cleanArray(APIRecipes.data.results);
+    console.log(cleanedAPIRecipes)
 
     return [...DBRecipesWDiets, ...cleanedAPIRecipes];
   } catch (error) {
-    console.error("Error al obtener las recetas:", error);
-    throw error;
+    try {
+      const DBRecipes = await Recipe.findAll({
+        include: {
+          model: Diet,
+          through: "diet_type",
+        },
+      });
+      const DBRecipesWDiets = DBRecipes.map((recipe) => {
+        const { Diet, ...rest } = recipe.toJSON();
+        return {
+          ...rest,
+          Diet: Diet.map((diet) => {
+            return { name: diet.name };
+          }),
+        };
+      });
+      const APIRecipes = await axios.get('https://ajoaquinlizarraga.github.io/Food-API-mine/myApi/data/foodComplexSearch.json');
+      const cleanedAPIRecipes = cleanArray(APIRecipes.data.results);
+
+      return [...DBRecipesWDiets, ...cleanedAPIRecipes];
+      
+    } catch (error) {
+      throw error("Error al obtener las recetas:", error);
+    }
   }
 };
 

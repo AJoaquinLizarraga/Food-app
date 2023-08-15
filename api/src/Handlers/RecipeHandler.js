@@ -3,18 +3,18 @@ const {
   getAllRecipes,
   getRecipesByName,
 } = require("../controllers/RecipeController");
-const { Recipe, Diet, diet_type } = require("../db");
+const { Recipe, typeDiet, diet_type } = require("../db");
 
 const validate = (req, res, next) => {
-  const { title, summary, healthScore, stepbystep, Diet, image } = req.body;
-  if (!title || !summary || !healthScore || !stepbystep || !Diet || !image)
+  const { title, summary, healthScore, stepbystep, typeDiet, image } = req.body;
+  if (!title || !summary || !healthScore || !stepbystep || !typeDiet || !image)
     res.status(400).json({ error: "Datos Requeridos" });
   next();
 };
 /** AQUI SE INGRESAN LAS RECETAS NUEVAS */
 const postRecipesHandler = async (req, res) => {
   try {
-    const { title, summary, healthScore, stepbystep, Diet, image } = req.body;
+    const { title, summary, healthScore, stepbystep, typeDiet, image } = req.body;
     const exists = await Recipe.findAll({ where: { title: title } });
     if (exists.length) {
       throw new Error("There is already a recetaId with this name");
@@ -25,12 +25,13 @@ const postRecipesHandler = async (req, res) => {
       summary,
       healthScore,
       stepbystep,
+      typeDiet,
       image,
       created: true,
     });
 
-    const typeDietIds = Diet.split(",").map((id) => Number(id.trim()));
-    newRecipe.addTypeDiets(typeDietIds);
+    const typeDietIds = typeDiet.split(",").map((id) => Number(id.trim()));
+    newRecipe.adddiets(typeDietIds);
 
     res.status(200).json(newRecipe);
   } catch (error) {

@@ -63,10 +63,11 @@ export function getTypeDiets() {
 }
 
 export const postRecipe = (recipeData) => {
+  const {title, summary, healthScore,stepbystep, typeDiet ,image} = recipeData;
   return async (dispatch) => {
     const response = await axios.post(
       "http://localhost:3001/recipes",
-      recipeData
+      {title, summary, healthScore,stepbystep, typeDiet ,image}
     );
     return dispatch({
       type: POST_RECIPE,
