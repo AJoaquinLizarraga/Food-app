@@ -48,15 +48,43 @@ function rootReducer(state = initialState, action) {
         recipes: [action.payload, ...state.recipes],
       };
 
+    // case "FILTER_BY_TYPEDIET":
+    //   const { allRecipes } = state;
+    //   console.log(allRecipes, allRecipes[0].diets.name);
+    //   const typeDietFilter =
+    //     action.payload === "All"
+    //       ? allRecipes
+    //       : allRecipes.filter((type) =>
+    //           type.diets.some((element) => element.name === action.payload)
+    //         );
+
+    //   return {
+    //     ...state,
+    //     recipes: typeDietFilter,
+    //     allRecipes: state.allRecipes,
+    //   };
     case "FILTER_BY_TYPEDIET":
       const { allRecipes } = state;
-      const typeDietFilter =
-        action.payload === "All"
-          ? allRecipes
-          : allRecipes.filter((type) =>
-              type.Diet.find((element) => element.name === action.payload)
-            );
+      let typeDietFilter;
+        if(action.payload === "All"){
+          typeDietFilter = allRecipes
+        }
+        else{
+              let filteredRecipesDiets = allRecipes.filter((recipe) =>
+              recipe.diets?.find((diet) => diet.name === action.payload)
+              );
 
+              let filteredRecipesDiet = allRecipes.filter((recipe) =>
+              recipe.Diet?.some((diet) => diet.name === action.payload)
+              );
+
+              typeDietFilter = [
+              ...filteredRecipesDiets,
+              ...filteredRecipesDiet,
+              ];
+  
+        }
+        console.log(typeDietFilter);
       return {
         ...state,
         recipes: typeDietFilter,
