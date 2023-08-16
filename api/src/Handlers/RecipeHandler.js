@@ -15,14 +15,13 @@ const validate = (req, res, next) => {
 const postRecipesHandler = async (req, res) => {
   try {
     const { title, summary, healthScore, stepbystep, diet, image } = req.body;
-    // const propiedades = req.body;
     if(!title || !summary || !healthScore || !diet) return;
 
     const exists = await Recipe.findAll({ where: { title: title } });
     if (exists.length) {
       throw new Error("There is already a recetaId with this name");
     }
-
+    /* NO SE HIZO CONTROLLER */
     const newRecipe = await Recipe.create({
       title,
       summary,
@@ -31,8 +30,7 @@ const postRecipesHandler = async (req, res) => {
       image,
     });
 
-    let typeDietIds = diet.map((id) => Number(id.trim()));
-    // newRecipe.addDiet(typeDietIds);
+    let typeDietIds = diet.map((id) => Number(id.trim())); //trim elimina espacios en blanco
     while(typeDietIds.length){
       const id = Number(typeDietIds.shift())
       const dieta = await Diet.findOne({ where: { id } })
@@ -44,18 +42,10 @@ const postRecipesHandler = async (req, res) => {
         through: "diet_type",
       },
     });
-    // const DBRecipesWithDiets = resultado.map((recipe) => {
-    //   const { Diet, ...rest } = recipe.toJSON();
-    //   return {
-    //     ...rest,
-    //     Diet: Diet.map((diet) => {
-    //       return { name: diet.name };
-    //     }),
-    //   };
-    // });
+  
     res.status(200).json(resultado);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(400).send(error.message);
   }
 };
@@ -66,13 +56,12 @@ const getRecipesByIdHandler = async (req, res) => {
   const { id } = req.params;
   try {
     const recetaId = await getRecipesById(id);
-    console.log(recetaId);
     if (recetaId) res.status(200).json(recetaId);
     else res.status(200).json("No existe una receta con ese Id");
   } catch (error) {
     res
       .status(400)
-      .json({ error: "La receta solicitada no existe" + error.message });
+      .json({ error: "La receta solicitada no existe " + error.message });
   }
 };
 
@@ -82,7 +71,6 @@ const getRecipesHandler = async (req, res) => {
   try {
     const { name } = req.query;
     const result = name ? await getRecipesByName(name) : await getAllRecipes();
-    // console.log(result);
     res.status(200).json(result);
   } catch (error) {
     res.status(404).json({ error: error.message });

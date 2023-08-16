@@ -63,7 +63,6 @@ export function getTypeDiets() {
 }
 
 export const postRecipe = (recipeData) => {
-  // const {title, summary, healthScore,stepbystep, Diet ,image} = recipeData;
   console.log(recipeData)
   return async (dispatch) => {
     const response = await axios.post(

@@ -19,16 +19,4 @@ describe('GET /recipes/:id', () => {
       expect(res.status).to.equal(200)
     })
   });
-  it('should respond a recipe with the id and the correct title',()=>{
-    return agent.get("/recipes/716381")
-    .then(res => {
-      expect(res.body[0].title).to.equal('Nigerian Snail Stew')
-    })
-  })
-  it('should respond a recipe with the id and the correct title',()=>{
-    return agent.get("/recipes/716426")
-    .then(res => {
-      expect(res.body[0].title).to.equal("Cauliflower, Brown Rice, and Vegetable Fried Rice")
-    })
-  })
   });

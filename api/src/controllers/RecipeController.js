@@ -1,10 +1,12 @@
 const axios = require("axios");
 const { Recipe, Diet } = require("../db");
-const { API_KEY2 } = process.env;
+const { API_KEY, API_KEY2 } = process.env;
 const { Op, URL_CS, UUID } = require("sequelize");
 
-// const URL = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`;
-
+/*
+ESTO DA ERROR DE CORS
+const URL = `${URL_CS}?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`;
+*/
 const cleanArray = (arr) => {
   return arr.map((elemento) => {
     return {
@@ -21,7 +23,7 @@ const cleanArray = (arr) => {
     };
   });
 };
- /* la funcion createInDB, en el readme en la parte del front recién dice que no 
+ /* la funcion createInDB, en el readme en la parte del "front" recién dice que no 
  se puede guardar la receta en la base de datos */
 // const createInDB = async (recetaId) =>{
 //   let newReceta = await Recipe.create({
@@ -42,7 +44,7 @@ const getRecipesById = async (id) => {
     });
     if (recetaId) return recetaId;
   }
-
+    /* AQUI SE HACE LA PETICION PRIMARIA */
   try {
     const response = await axios.get(
       `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY2}`
@@ -59,6 +61,7 @@ const getRecipesById = async (id) => {
     };
     return recetaId;
   } catch (error) {
+    /* AQUI SE HACE LA PETICION DE RESPALDO */
     try {
       const response = await axios.get(
         "https://ajoaquinlizarraga.github.io/Food-API-mine/myApi/data/foodComplexSearch.json"
@@ -94,6 +97,7 @@ const getRecipesByName = async (name) => {
       },
     },
   });
+    /* AQUI SE HACE LA PETICION PRIMARIA */
   try {
     const apiRecipes = (
       await axios.get(
@@ -110,6 +114,7 @@ const getRecipesByName = async (name) => {
     return [...DBRecipes, ...filteredApi];
     
   } catch (error) {
+    /* AQUI SE HACE LA PETICION DE RESPALDO */
     try {
       const apiRecipes = (
         await axios.get(
@@ -131,6 +136,7 @@ const getRecipesByName = async (name) => {
 };
 
 const getAllRecipes = async () => {
+  /* AQUI SE HACE LA PETICION PRIMARIA */
   try {
     const DBRecipes = await Recipe.findAll({
       include: {
@@ -138,24 +144,6 @@ const getAllRecipes = async () => {
         through: "diet_type",
       },
     });
-    // const DBRecipesWDiets = DBRecipes.map((recipe) => {
-    //   const { Diet, ...rest } = recipe.toJSON();
-    //   return {
-    //     ...rest,
-    //     Diet: Diet.map((diet) => {
-    //       return { name: diet.name };
-    //     }),
-    //   };
-    // });
-    // const DBRecipes = await Recipe.findAll({
-    //   attributes: { exclude: ['createdAt', 'updatedAt'] },
-    //   include: [{
-    //     model: Diet,
-    //     attributes: ['name'],
-    //     through: { attributes: [] },
-    //     as: 'diet_type'
-    //   }]
-    // })
   
     const APIRecipes = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`);
     const cleanedAPIRecipes = cleanArray(APIRecipes.data.results);
@@ -163,6 +151,7 @@ const getAllRecipes = async () => {
 
     return [...DBRecipes, ...cleanedAPIRecipes];
   } catch (error) {
+    /* AQUI SE HACE LA PETICION DE RESPALDO */
     try {
       const DBRecipes = await Recipe.findAll({
         include: {
@@ -170,24 +159,7 @@ const getAllRecipes = async () => {
           through: "diet_type",
         },
       });
-      // const DBRecipesWDiets = DBRecipes.map((recipe) => {
-      //   const { Diet, ...rest } = recipe.toJSON();
-      //   return {
-      //     ...rest,
-      //     Diet: Diet.map((diet) => {
-      //       return { name: diet.name };
-      //     }),
-      //   };
-      // });
-      // const DBRecipes = await Recipe.findAll({
-      //   attributes: { exclude: ['createdAt', 'updatedAt'] },
-      //   include: [{
-      //     model: Diet,
-      //     attributes: ['name'],
-      //     through: { attributes: [] },
-      //     as: 'diet_type'
-      //   }]
-      // })
+      
       const APIRecipes = await axios.get('https://ajoaquinlizarraga.github.io/Food-API-mine/myApi/data/foodComplexSearch.json');
       const cleanedAPIRecipes = cleanArray(APIRecipes.data.results);
 

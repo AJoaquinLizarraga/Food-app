@@ -4,6 +4,7 @@ import styles from "./LandingPage.module.css";
 
 export default function LandingPage() {
   const history = useNavigate();
+  /* AQUI INTENTE CON EL HOOK usoHistory de react-router-dom */
 
   const handleButtonClick = () => {
     history("/home");

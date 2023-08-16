@@ -32,7 +32,7 @@ export default function Detail() {
             <h3>STEPS:</h3>
             <ul>
               {!isNaN(+detailsState.id) &&
-                detailsState?.analyzedInstructions?.map((instruction) => (
+                detailsState?.stepbystep?.map((instruction) => (
                   <li key={instruction.number}>
                     {instruction.number}. {instruction.step}
                   </li>

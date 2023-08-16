@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 
 
 function App() {
+  /* DISPATCH DE LAS RECETAS DE HOME, SE MONTA AL INICIO*/
  const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getRecipes());
