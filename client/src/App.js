@@ -4,9 +4,18 @@ import LandingPage from './components/Landing/LandingPage'
 import Home from './components/Home/Home';
 import RecipeCreate from './components/Create/RecipeCreate';
 import Details from './components/Details/Details';
+import { useEffect } from 'react';
+import { getRecipes, getTypeDiets } from './Redux/actions';
+import { useDispatch } from 'react-redux';
 
 
 function App() {
+ const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getRecipes());
+    dispatch(getTypeDiets());
+  }, [dispatch]);
+
   return (
     
     <div className="App">

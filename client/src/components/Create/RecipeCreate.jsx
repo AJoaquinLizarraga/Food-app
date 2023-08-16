@@ -13,8 +13,8 @@ function controlForm(input) {
   if (!regexHealthScore.test(input.healthScore))
     errors.healthScore = "Puntúe su healthScore";
   if (!input.image) errors.image = "De preferencia, coloque una foto de su receta"; //modificar
-  if (!input.typeDiet || input.typeDiet.length === 0)
-    errors.typeDiet =
+  if (!input.diet || input.diet.length === 0)
+    errors.diet =
       "Seleccione al menos 3 tipos de dieta que correspondan";
 
   return errors;
@@ -30,7 +30,7 @@ export default function CreateRecipe() {
     summary: "",
     healthScore: "",
     stepbystep: "",
-    typeDiet: [],
+    diet: [],
     image: "",
   });
 
@@ -52,7 +52,7 @@ export default function CreateRecipe() {
   function handleSelect(event) {
     setInput({
       ...input,
-      typeDiet: [...input.typeDiet, event.target.value],
+      diet: [...input.diet, event.target.value],
     });
   }
 
@@ -67,8 +67,7 @@ export default function CreateRecipe() {
     //   image,
     // } = input;
 
-    const typeDietsAsString = input.typeDiet.join(",");
-
+    const typeDietsAsString = input.diet.join(",");
     try {
        dispatch(
         postRecipe(input)
@@ -79,7 +78,7 @@ export default function CreateRecipe() {
         summary: "",
         healthScore: "",
         stepbystep: "",
-        typeDiet: [],
+        diet: [],
         image: "",
       });
     } catch (error) {
@@ -89,7 +88,7 @@ export default function CreateRecipe() {
   function handleDelete(event) {
     setInput({
       ...input,
-      typeDiet: input.typeDiet.filter((diet) => diet !== event),
+      diet: input.diet.filter((diet) => diet !== event),
     });
   }
 
@@ -164,8 +163,10 @@ export default function CreateRecipe() {
               </option>
             ))}
           </select>
+
+
           <br />
-          {input.typeDiet.map((event) => {
+          {input.diet.map((event) => {
             return (
               <div key={event}>
                 <h5 className={styles.types}>{event}</h5>
@@ -173,6 +174,7 @@ export default function CreateRecipe() {
                   Eliminar
                 </button>
               </div>
+              
             );
           })}
           {errors.title ||

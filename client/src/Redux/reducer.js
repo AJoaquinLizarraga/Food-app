@@ -1,11 +1,12 @@
 const initialState = {
   allRecipes: [],
   recipes: [],
-  typeDiets: [],
+  typeDiet: [],
   details: {},
   searchedRecipes: [],
   numPage: 1,
 };
+
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -37,22 +38,23 @@ function rootReducer(state = initialState, action) {
     case "GET_TYPE_DIETS":
       return {
         ...state,
-        typeDiets: action.payload,
+        typeDiet: action.payload,
       };
 
     case "POST_RECIPE":
       return {
         ...state,
-        allRecipes: action.payload,
-        recipes: action.payload,
+        allRecipes: [action.payload, ...state.allRecipes],
+        recipes: [action.payload, ...state.recipes],
       };
+
     case "FILTER_BY_TYPEDIET":
       const { allRecipes } = state;
       const typeDietFilter =
         action.payload === "All"
           ? allRecipes
-          : allRecipes.filter((t) =>
-              t.TypeDiets.find((e) => e.name === action.payload)
+          : allRecipes.filter((type) =>
+              type.Diet.find((element) => element.name === action.payload)
             );
 
       return {

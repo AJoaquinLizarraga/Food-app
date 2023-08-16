@@ -1,9 +1,9 @@
 const axios = require("axios");
 const { Recipe, Diet } = require("../db");
 const { API_KEY2 } = process.env;
-const { Op, URL_CS } = require("sequelize");
+const { Op, URL_CS, UUID } = require("sequelize");
 
-const URL = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`;
+// const URL = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`;
 
 const cleanArray = (arr) => {
   return arr.map((elemento) => {
@@ -35,10 +35,13 @@ const cleanArray = (arr) => {
 //   })
 // }
 const getRecipesById = async (id) => {
-  const recetaId = await Recipe.findByPk(id, {
-    include: [{ model: Diet, through: { attributes: [] } }],
-  });
-  if (recetaId) return recetaId;
+  if(typeof id === UUID){
+
+    const recetaId = await Recipe.findByPk(id, {
+      include: [{ model: Diet, through: { attributes: [] } }],
+    });
+    if (recetaId) return recetaId;
+  }
 
   try {
     const response = await axios.get(
@@ -135,21 +138,30 @@ const getAllRecipes = async () => {
         through: "diet_type",
       },
     });
-    const DBRecipesWDiets = DBRecipes.map((recipe) => {
-      const { Diet, ...rest } = recipe.toJSON();
-      return {
-        ...rest,
-        Diet: Diet.map((diet) => {
-          return { name: diet.name };
-        }),
-      };
-    });
+    // const DBRecipesWDiets = DBRecipes.map((recipe) => {
+    //   const { Diet, ...rest } = recipe.toJSON();
+    //   return {
+    //     ...rest,
+    //     Diet: Diet.map((diet) => {
+    //       return { name: diet.name };
+    //     }),
+    //   };
+    // });
+    // const DBRecipes = await Recipe.findAll({
+    //   attributes: { exclude: ['createdAt', 'updatedAt'] },
+    //   include: [{
+    //     model: Diet,
+    //     attributes: ['name'],
+    //     through: { attributes: [] },
+    //     as: 'diet_type'
+    //   }]
+    // })
   
     const APIRecipes = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY2}&number=100&addRecipeInformation=true`);
     const cleanedAPIRecipes = cleanArray(APIRecipes.data.results);
     console.log(cleanedAPIRecipes)
 
-    return [...DBRecipesWDiets, ...cleanedAPIRecipes];
+    return [...DBRecipes, ...cleanedAPIRecipes];
   } catch (error) {
     try {
       const DBRecipes = await Recipe.findAll({
@@ -158,19 +170,28 @@ const getAllRecipes = async () => {
           through: "diet_type",
         },
       });
-      const DBRecipesWDiets = DBRecipes.map((recipe) => {
-        const { Diet, ...rest } = recipe.toJSON();
-        return {
-          ...rest,
-          Diet: Diet.map((diet) => {
-            return { name: diet.name };
-          }),
-        };
-      });
+      // const DBRecipesWDiets = DBRecipes.map((recipe) => {
+      //   const { Diet, ...rest } = recipe.toJSON();
+      //   return {
+      //     ...rest,
+      //     Diet: Diet.map((diet) => {
+      //       return { name: diet.name };
+      //     }),
+      //   };
+      // });
+      // const DBRecipes = await Recipe.findAll({
+      //   attributes: { exclude: ['createdAt', 'updatedAt'] },
+      //   include: [{
+      //     model: Diet,
+      //     attributes: ['name'],
+      //     through: { attributes: [] },
+      //     as: 'diet_type'
+      //   }]
+      // })
       const APIRecipes = await axios.get('https://ajoaquinlizarraga.github.io/Food-API-mine/myApi/data/foodComplexSearch.json');
       const cleanedAPIRecipes = cleanArray(APIRecipes.data.results);
 
-      return [...DBRecipesWDiets, ...cleanedAPIRecipes];
+      return [...DBRecipes, ...cleanedAPIRecipes];
       
     } catch (error) {
       throw error("Error al obtener las recetas:", error);

@@ -18,7 +18,7 @@ import Paginate from "../Paginate/Paginate";
 import styles from "./Home.module.css";
 export default function Home() {
   const dispatch = useDispatch();
-  const { recipes, typeDiets, numPage } = useSelector((state) => state);
+  const { recipes, typeDiet, numPage } = useSelector((state) => state);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("");
   const [typeDietFilter, setTypeDietFilter] = useState("All");
@@ -38,10 +38,10 @@ export default function Home() {
   const handleRefresh = () => {
     window.location.reload();
   };
-  useEffect(() => {
-    dispatch(getRecipes());
-    dispatch(getTypeDiets());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getRecipes());
+  //   dispatch(getTypeDiets());
+  // }, [dispatch]);
 
   const handleFilterTypeDiet = (event) => {
     setTypeDietFilter(event.target.value);
@@ -141,7 +141,7 @@ export default function Home() {
               value={typeDietFilter}
             >
               <option value="All">Todas las recetas</option>
-              {typeDiets.map((typeDiet) => (
+              {typeDiet.map((typeDiet) => (
                 <option key={typeDiet.name} value={typeDiet.name}>
                   {typeDiet.name}
                 </option>

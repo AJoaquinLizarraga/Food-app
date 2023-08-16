@@ -18,7 +18,6 @@ export default function Detail() {
   }, [id]);
 
   const detailsState = useSelector((state) => state.details);
-  console.log(detailsState);
   return (
     <div className={styles.container}>
       <div className={styles.detailsContainer}>

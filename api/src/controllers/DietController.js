@@ -18,10 +18,10 @@ const getApiDiets = async () => {
       }));
       
       Diet.bulkCreate(transformedData);
-      console.log('primer try');
+      // console.log('primer try');
   } catch (error) {
     try {
-      console.log('segundo try');
+      // console.log('segundo try');
       const response = await axios.get(
         `https://ajoaquinlizarraga.github.io/Food-API-mine/myApi/data/foodComplexSearch.json`
       );

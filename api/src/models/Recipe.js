@@ -6,7 +6,7 @@ module.exports = (database) => {
   database.define("recipe", {
     /**id del plato en la db*/
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       primaryKey: true,

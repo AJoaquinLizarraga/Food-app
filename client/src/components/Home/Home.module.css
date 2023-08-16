@@ -14,7 +14,7 @@
   padding: 10px; 
   border: none;
   color: rgb(246, 236, 236);
-  background-color: rgb(133, 91, 91);
+  background-color: rgb(240, 50, 50);
   cursor: pointer;
   border-radius: 8px;
   margin-bottom: 7px;
@@ -23,7 +23,7 @@
 .filterrecipe{
   padding: 10px; 
   border: none;
-  background-color: rgb(133, 91, 91); 
+  background-color: rgb(240, 50, 50); 
   color: rgb(234, 225, 225);
   cursor: pointer;
   border-radius: 15px;
@@ -31,7 +31,7 @@
 .allrecipes{
   padding: 10px; 
   border: none;
-  background-color: rgb(133, 91, 91); 
+  background-color: rgb(240, 50, 50); 
   color: rgb(234, 225, 225);
   cursor: pointer;
   border-radius: 15px;
@@ -39,7 +39,7 @@
 .mayormenor{
   padding: 10px; 
   border: none;
-  background-color: rgb(133, 91, 91); 
+  background-color: rgb(240, 50, 50); 
   color: rgb(234, 225, 225);
   cursor: pointer;
   border-radius: 15px;
@@ -80,7 +80,7 @@
 .select {
   padding: 10px; 
   border: none;
-  background-color: rgb(133, 91, 91); 
+  background-color: rgb(240, 50, 50); 
   color: rgb(238, 222, 222);
   cursor: pointer;
   border-radius: 15px;
