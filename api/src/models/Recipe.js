@@ -32,7 +32,7 @@ module.exports = (database) => {
     },
     /**paso a paso de la comida */
     stepbystep: {
-      type: DataTypes.JSON,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     image: {

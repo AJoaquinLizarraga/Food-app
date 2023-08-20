@@ -31,12 +31,12 @@ export default function Detail() {
           <div className={styles.stepsContainer}>
             <h3>STEPS:</h3>
             <ul>
-              {!isNaN(+detailsState.id) &&
+              {!isNaN(+detailsState.id) ?
                 detailsState?.stepbystep?.map((instruction) => (
                   <li key={instruction.number}>
                     {instruction.number}. {instruction.step}
                   </li>
-                ))}
+                )) : detailsState?.stepbystep }
             </ul>
           </div>
         </div>

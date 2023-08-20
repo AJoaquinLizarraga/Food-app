@@ -125,7 +125,9 @@ export default function CreateRecipe() {
           <div>
             <label>Puntuación de salud:</label>
             <input
-              type="text"
+              type="number"
+              min="0"
+              max="100"
               name="healthScore"
               value={input.healthScore}
               onChange={handleChange}
